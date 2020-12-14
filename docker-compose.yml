@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  users:
+    container_name: users
+    build: Microservices/sigoms-users
+    image: users:1.0
+    ports:
+      - 444:443
+      - 8081:80
+      - 9001:9000
+    volumes:
+      - ./Microservices/Users:/app

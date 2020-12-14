@@ -2,6 +2,10 @@
 	path = Microservices/sigoms-gnormas
 	url = git@github.com:FranciscoGuilherme/sigoms-gnormas.git
 
+[submodule "Microservices/sigoms-consultoria"]
+	path = Microservices/sigoms-consultoria
+	url = git@github.com:FranciscoGuilherme/sigoms-consultoria.git
+
 [submodule "Microservices/sigoms-gpindustrial"]
 	path = Microservices/sigoms-gpindustrial
 	url = git@github.com:FranciscoGuilherme/sigoms-gpindustrial.git

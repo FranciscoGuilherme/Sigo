@@ -1,0 +1,3 @@
+[submodule "Microservices/sigoms-gpindustrial"]
+	path = Microservices/sigoms-gpindustrial
+	url = git@github.com:FranciscoGuilherme/sigoms-gpindustrial.git

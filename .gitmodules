@@ -13,3 +13,7 @@
 [submodule "Microservices/sigoms-users"]
 	path = Microservices/sigoms-users
 	url = git@github.com:FranciscoGuilherme/sigoms-users.git
+
+[submodule "Frontend"]
+	path = Frontend
+	url = git@github.com:FranciscoGuilherme/Frontend.git

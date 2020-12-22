@@ -1,6 +1,17 @@
 version: '3'
 
 services:
+  reactapp:
+    container_name: reactapp
+    build: ./Frontend/sigomf
+    image: reactapp:1.0
+    ports:
+      - 8084:80
+    volumes:
+      - ./Frontend/sigomf:/app
+    environment:
+      - NODE_ENV=development
+
   users:
     container_name: users
     build: Microservices/sigoms-users

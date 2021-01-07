@@ -21,4 +21,14 @@ services:
       - 8081:80
       - 9001:9000
     volumes:
-      - ./Microservices/Users:/app
+      - ./Microservices/sigoms-users:/app
+
+  db_users:
+    container_name: db_users
+    image: postgres:latest
+    ports:
+      - 15432:5432
+    environment:
+      POSTGRES_DB: ${USERS_POSTGRES_DB}
+      POSTGRES_USER: ${USERS_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${USERS_POSTGRES_PASSWORD}

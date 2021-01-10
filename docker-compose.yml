@@ -1,14 +1,18 @@
 version: '3'
 
+networks:
+  kong-net:
+    external: false
+
 services:
   reactapp:
     container_name: reactapp
-    build: ./Frontend/sigomf
+    build: ./Frontend
     image: reactapp:1.0
     ports:
       - 8084:80
     volumes:
-      - ./Frontend/sigomf:/app
+      - ./Frontend:/app
     environment:
       - NODE_ENV=development
 
@@ -32,3 +36,69 @@ services:
       POSTGRES_DB: ${USERS_POSTGRES_DB}
       POSTGRES_USER: ${USERS_POSTGRES_USER}
       POSTGRES_PASSWORD: ${USERS_POSTGRES_PASSWORD}
+
+  kong-migrations:
+    container_name: kong_migrations
+    image: kong:latest
+    command: kong migrations bootstrap
+    depends_on:
+      - db_kong
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: db_kong
+      KONG_PG_USER: ${KONG_PG_USER}
+      KONG_PG_DATABASE: ${KONG_PG_DATABASE}
+      KONG_PG_PASSWORD: ${KONG_PG_PASSWORD}
+    networks:
+      - kong-net
+    restart: on-failure
+
+  kong:
+    container_name: kong
+    image: kong:latest
+    user: ${KONG_USER:-kong}
+    depends_on:
+      - db_kong
+    environment:
+      KONG_CASSANDRA_CONTACT_POINTS: ${KONG_CASSANDRA_CONTACT_POINTS}
+      KONG_DATABASE: ${KONG_DATABASE}
+      KONG_PG_HOST: db_kong
+      KONG_PG_USER: ${KONG_PG_USER}
+      KONG_PG_DATABASE: ${KONG_PG_DATABASE}
+      KONG_PG_PASSWORD: ${KONG_PG_PASSWORD}
+      KONG_ADMIN_LISTEN: ${KONG_ADMIN_LISTEN}
+      KONG_ADMIN_ACCESS_LOG: ${KONG_ADMIN_ACCESS_LOG}
+      KONG_PROXY_ACCESS_LOG: ${KONG_PROXY_ACCESS_LOG}
+      KONG_ADMIN_ERROR_LOG: ${KONG_ADMIN_ERROR_LOG}
+      KONG_PROXY_ERROR_LOG: ${KONG_PROXY_ERROR_LOG}
+    networks:
+      - kong-net
+    ports:
+      - 8000:8000/tcp
+      - 127.0.0.1:8001:8001/tcp
+      - 8443:8443/tcp
+      - 127.0.0.1:8444:8444/tcp
+    healthcheck:
+      test: [ "CMD", "kong", "health" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    restart: on-failure
+
+  db_kong:
+    container_name: db_kong
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${KONG_PG_DATABASE}
+      POSTGRES_USER: ${KONG_PG_USER}
+      POSTGRES_PASSWORD: ${KONG_PG_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${KONG_PG_USER:-kong}" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: on-failure
+    stdin_open: true
+    tty: true
+    networks:
+      - kong-net

@@ -3,6 +3,11 @@ version: '3'
 networks:
   kong-net:
     external: false
+  sigo-net:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
 
 services:
   reactapp:
@@ -15,6 +20,9 @@ services:
       - ./Frontend:/app
     environment:
       - NODE_ENV=development
+    networks:
+      sigo-net:
+        ipv4_address: 10.5.0.2
 
   users:
     container_name: users
@@ -24,8 +32,19 @@ services:
       - 444:443
       - 8081:80
       - 9001:9000
+    environment:
+      APP_ENV: ${APP_ENV}
+      APP_SECRET: ${APP_SECRET}
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      JWT_PASSPHRASE: ${JWT_PASSPHRASE}
+      CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN}
     volumes:
       - ./Microservices/sigoms-users:/app
+    networks:
+      sigo-net:
+        ipv4_address: 10.5.0.3
 
   db_users:
     container_name: db_users
@@ -36,6 +55,9 @@ services:
       POSTGRES_DB: ${USERS_POSTGRES_DB}
       POSTGRES_USER: ${USERS_POSTGRES_USER}
       POSTGRES_PASSWORD: ${USERS_POSTGRES_PASSWORD}
+    networks:
+      sigo-net:
+        ipv4_address: 10.5.0.4
 
   kong-migrations:
     container_name: kong_migrations

@@ -75,6 +75,7 @@ services:
       - 446:443
       - 8082:80
       - 9002:9000
+      - 3001:3001
     volumes:
       - ./Microservices/sigoms-gpindustrial:/app
     networks:

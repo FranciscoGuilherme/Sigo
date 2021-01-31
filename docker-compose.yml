@@ -1,8 +1,6 @@
 version: '3'
 
 networks:
-  kong-net:
-    external: false
   sigo-net:
     driver: bridge
     ipam:
@@ -119,7 +117,8 @@ services:
       KONG_PG_DATABASE: ${KONG_PG_DATABASE}
       KONG_PG_PASSWORD: ${KONG_PG_PASSWORD}
     networks:
-      - kong-net
+      sigo-net:
+        ipv4_address: 10.5.0.7
     restart: on-failure
 
   kong:
@@ -143,7 +142,8 @@ services:
       KONG_ADMIN_ERROR_LOG: ${KONG_ADMIN_ERROR_LOG}
       KONG_PROXY_ERROR_LOG: ${KONG_PROXY_ERROR_LOG}
     networks:
-      - kong-net
+      sigo-net:
+        ipv4_address: 10.5.0.8
     ports:
       - 8000:8000/tcp
       - 127.0.0.1:8001:8001/tcp
@@ -174,7 +174,8 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - kong-net
+      sigo-net:
+        ipv4_address: 10.5.0.9
 
   #--------------------------------------------------------------------------
   # Legacy application simulation

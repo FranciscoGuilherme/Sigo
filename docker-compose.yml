@@ -10,6 +10,13 @@ networks:
        - subnet: 10.5.0.0/16
 
 services:
+
+  '''
+  |--------------------------------------------------------------------------
+  | Sigo Frontend - User Interface
+  |--------------------------------------------------------------------------
+  '''
+
   reactapp:
     container_name: reactapp
     build: ./Frontend
@@ -23,6 +30,12 @@ services:
     networks:
       sigo-net:
         ipv4_address: 10.5.0.2
+
+  '''
+  |--------------------------------------------------------------------------
+  | Sigo Microservices
+  |--------------------------------------------------------------------------
+  '''
 
   users:
     container_name: users
@@ -74,6 +87,32 @@ services:
     networks:
       sigo-net:
         ipv4_address: 10.5.0.5
+
+
+  '''
+  |--------------------------------------------------------------------------
+  | Message Broker RabbitMQ
+  |--------------------------------------------------------------------------
+  '''
+
+  rabbitmq:
+    container_name: rabbitmq
+    build: RabbitMQ
+    image: rabbitmq:1.0
+    ports:
+      - 15672:15672
+    volumes:
+      - ./RabbitMQ/config/definitions.json:/opt/definitions.json
+      - ./RabbitMQ/config/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+    networks:
+      sigo-net:
+        ipv4_address: 10.5.0.6
+
+  '''
+  |--------------------------------------------------------------------------
+  | Kong API Gateway
+  |--------------------------------------------------------------------------
+  '''
 
   kong-migrations:
     container_name: kong_migrations
@@ -146,6 +185,12 @@ services:
     tty: true
     networks:
       - kong-net
+
+  '''
+  |--------------------------------------------------------------------------
+  | Legacy application simulation
+  |--------------------------------------------------------------------------
+  '''
 
   simulacao:
     container_name: simulacao

@@ -1,27 +1,12 @@
-const { client } = require("./services/db")
+const aliases = require('module-alias/register')
+const { client } = require("@services/database")
+const normasService = require('@services/normas')
 
-exports.handler = () => {
-  const event = {
-    path: "/normas"
-  }
-
-  client.connect()
-  client.query('SELECT NOW()', (err, res) => {
-    console.log(res.rows[0])
-    client.end()
-  })
-
-  /*
+exports.handler = (event, context, callback) => {
   if (event.path === "/normas") {
-      const response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'Sucesso',
-        input: client
-      }),
-    }
-
-    return response
-    //callback(null, response)
-  }*/
+    normasService.getStandards()
+      .then((response) => {
+        callback(null, response)
+      })
+  }
 }

@@ -3,13 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pg": "^8.5.1"
+    "module-alias": "^2.2.2",
+    "pg": "^8.5.1",
+    "remove": "^0.1.5",
+    "tsconfig-paths": "^3.9.0"
+  },
+  "_moduleAliases": {
+    "@config": "src/config",
+    "@services": "src/services",
+    "@repository": "src/repository"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }

@@ -82,6 +82,20 @@ services:
       sigo-net:
         ipv4_address: 10.5.0.5
 
+  gnormas:
+    container_name: gnormas
+    build: Microservices/sigoms-gnormas
+    image: gnormas:1.0
+    ports:
+      - 447:443
+      - 8083:80
+      - 9003:9000
+    volumes:
+      - ./Microservices/sigoms-gnormas:/app
+    networks:
+      sigo-net:
+        ipv4_address: 10.5.0.11
+
   #--------------------------------------------------------------------------
   # Message Broker RabbitMQ
   #--------------------------------------------------------------------------

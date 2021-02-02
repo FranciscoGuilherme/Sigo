@@ -9,12 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "http-status": "^1.5.0",
     "module-alias": "^2.2.2",
     "pg": "^8.5.1",
     "remove": "^0.1.5",
     "tsconfig-paths": "^3.9.0"
   },
   "_moduleAliases": {
+    "@utils": "src/utils",
     "@config": "src/config",
     "@services": "src/services",
     "@repository": "src/repository"

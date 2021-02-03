@@ -8,7 +8,7 @@ exports.handler = (event, context, callback) => {
 
   if (event.path === "/normas") {
     if (event.httpMethod === "GET") {
-      normasService.getStandards()
+      normasService.getCompliances()
       .then((result) => {
         callback(null, response.format(httpStatus.OK, result))
       })

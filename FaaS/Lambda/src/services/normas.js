@@ -1,8 +1,8 @@
 const normasRepository = require('@repository/normas')
 
-const getStandards = () => {
+const getCompliances = () => {
   return new Promise((resolve, reject) => {
-    normasRepository.getStandards()
+    normasRepository.getCompliances()
       .then((response) => {
         resolve(response)
       })
@@ -24,5 +24,5 @@ const createCompliance = (compliances) => {
   })
 }
 
-exports.getStandards = getStandards
+exports.getCompliances = getCompliances
 exports.createCompliance = createCompliance

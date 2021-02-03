@@ -3,20 +3,27 @@ exports.INSERT_NEW_COMPLIANCE_QUERY =
   "INSERT INTO compliances " +
     "(name, description) " +
   "VALUES " +
-    "($1, $2);"
-exports.INSERT_BATCH_COMPLIANCE_QUERY =
-  "INSERT INTO compliances " +
-    "(name, description) " +
+    "($1, $2) RETURNING compliance_id;"
+exports.INSERT_BATCH_STANDARD_QUERY =
+  "INSERT INTO standards " +
+    "(compliance, code, name, description, status) " +
   "VALUES ";
+exports.GET_ALL_STANDARDS_BY_COMPLIANCE_ID =
+  "SELECT * " +
+  "FROM standards " +
+  "WHERE compliance = $1;";
 
-exports.getBatchComplianceQuery = (compliances) => {
+exports.getBatchStandardQuery = (compliance, standards) => {
   let values = ""
 
-  compliances.forEach(compliance => {
+  standards.forEach(standard => {
     values += "('" +
-      compliance.data.name + "', '" +
-      compliance.data.desc + "'),"
-  });
-  
-  return (this.INSERT_BATCH_COMPLIANCE_QUERY + values).replace(/.$/,";")
+      compliance + "', '" +
+      standard.code + "', '" +
+      standard.name + "', '" +
+      standard.desc + "', '" +
+      standard.status + "'),"
+  })
+
+  return (this.INSERT_BATCH_STANDARD_QUERY + values).replace(/.$/,";")
 }

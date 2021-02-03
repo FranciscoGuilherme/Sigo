@@ -25,18 +25,26 @@ const getCompliances = () => {
 
 const createCompliance = (compliances) => {
   return new Promise((resolve, reject) => {
+    let data = []
+    let total = compliances.length
     client.connect()
-    compliances.forEach(compliance => {
+    compliances.forEach((compliance, index) => {
       client.query(consults.INSERT_NEW_COMPLIANCE_QUERY, [
         compliance.data.name,
         compliance.data.desc
       ])
         .then((response) => {
+          data.push(response.rows[0])
           client.query(consults.getBatchStandardQuery(
             response.rows[0].compliance_id,
-            compliance.standardsList)
-          )
-            .then((res) => { client.end(); resolve(res.rows) })
+            compliance.standardsList
+          ))
+            .then((res) => {
+              if (total === index + 1) {
+                client.end();
+                resolve(data)
+              }
+            })
             .catch((err) => { client.end(); reject(err) })
         })
         .catch((error) => { client.end(); reject(error) })

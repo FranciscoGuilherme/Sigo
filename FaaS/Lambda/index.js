@@ -23,7 +23,10 @@ exports.handler = (event, context, callback) => {
     if (event.httpMethod === "POST") {
       normasService.createCompliance(content.compliances)
         .then((result) => {
-          callback(null, response.format(httpStatus.OK, result))
+          callback(null, response.format(httpStatus.OK, {
+            message: 'Sucesso ao criar os registros',
+            details: result
+          }))
         })
         .catch((error) => {
           callback(null, response.format(httpStatus.INTERNAL_SERVER_ERROR, {

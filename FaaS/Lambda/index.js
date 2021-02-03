@@ -4,15 +4,21 @@ const response = require("@utils/response")
 const normasService = require('@services/normas')
 
 exports.handler = (event, context, callback) => {
+  let content = JSON.parse(event.body)
+
   if (event.path === "/normas") {
-    switch (event.httpMethod) {
-      case "GET": {
-        normasService.getStandards()
+    if (event.httpMethod === "GET") {
+      normasService.getStandards()
+      .then((result) => {
+        callback(null, response.format(httpStatus.OK, result))
+      })
+    }
+
+    if (event.httpMethod === "POST") {
+      normasService.createCompliance(content.compliances)
           .then((result) => {
             callback(null, response.format(httpStatus.OK, result))
           })
-      }
-      case "POST": {}
     }
   }
 }

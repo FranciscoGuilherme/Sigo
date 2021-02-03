@@ -45,3 +45,7 @@ exports.UPDATE_STANDARD_QUERY =
     "description = $4, " +
     "status = $5 " +
   "WHERE standard_id = $6;"
+
+exports.DELETE_COMPLIANCE_QUERY = "DELETE FROM compliances WHERE compliance_id = $1;"
+
+exports.DELETE_STANDARD_QUERY = "DELETE FROM standards WHERE compliance = $1;"

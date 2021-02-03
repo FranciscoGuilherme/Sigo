@@ -38,7 +38,7 @@ exports.handler = (event, context, callback) => {
         .then((result) => {
           content.compliance.standardsList.forEach(standard => {
             normasService.updateStandard(content.compliance.data.id, standard)
-              .then((result) => {
+              .then((res) => {
                 callback(null, response.format(httpStatus.OK, {
                   message: "Dados atualizados com sucesso"
                 }))
@@ -54,6 +54,24 @@ exports.handler = (event, context, callback) => {
         .catch((error) => {
           callback(null, response.format(httpStatus.INTERNAL_SERVER_ERROR, {
             message: 'Erro ao atualizar os dados do compliance',
+            details: error
+          }))
+        })
+    }
+
+    if (event.httpMethod === "DELETE") {
+      normasService.deleteCompliance(content.compliance.data.id)
+        .then((result) => {
+          normasService.deleteStandard(content.compliance.data.id)
+            .then((res) => {
+              callback(null, response.format(httpStatus.OK, {
+                message: "Dados deletados com sucesso"
+              }))
+            })
+        })
+        .catch((error) => {
+          callback(null, response.format(httpStatus.INTERNAL_SERVER_ERROR, {
+            message: 'Erro ao deletar o compliance',
             details: error
           }))
         })

@@ -72,7 +72,26 @@ const updateStandard = (compliandeId, standard) => {
   })
 }
 
+const deleteCompliance = (compliandeId) => {
+  return new Promise((resolve, reject) => {
+    client.connect()
+    client.query(consults.DELETE_COMPLIANCE_QUERY, [compliandeId])
+      .then((res) => { resolve(res.rows) })
+      .catch((err) => { client.end(); reject(err) })
+  })
+}
+
+const deleteStandard = (compliandeId) => {
+  return new Promise((resolve, reject) => {
+    client.query(consults.DELETE_STANDARD_QUERY, [compliandeId])
+      .then((res) => { client.end(); resolve(res.rows) })
+      .catch((err) => { client.end(); reject(err) })
+  })
+}
+
 exports.getCompliances = getCompliances
 exports.createCompliance = createCompliance
 exports.updateCompliance = updateCompliance
 exports.updateStandard = updateStandard
+exports.deleteCompliance = deleteCompliance
+exports.deleteStandard = deleteStandard

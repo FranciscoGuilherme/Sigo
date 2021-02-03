@@ -48,7 +48,33 @@ const updateStandard = (compliandeId, standard) => {
   })
 }
 
+const deleteCompliance = (compliandeId) => {
+  return new Promise((resolve, reject) => {
+    normasRepository.deleteCompliance(compliandeId)
+      .then((response) => {
+        resolve(response)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+const deleteStandard = (compliandeId) => {
+  return new Promise((resolve, reject) => {
+    normasRepository.deleteStandard(compliandeId)
+      .then((response) => {
+        resolve(response)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 exports.getCompliances = getCompliances
 exports.createCompliance = createCompliance
 exports.updateCompliance = updateCompliance
 exports.updateStandard = updateStandard
+exports.deleteCompliance = deleteCompliance
+exports.deleteStandard = deleteStandard

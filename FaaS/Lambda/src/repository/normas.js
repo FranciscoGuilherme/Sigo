@@ -5,11 +5,11 @@ const getStandards = () => {
     client.connect()
     client.query('SELECT NOW()')
       .then((response) => {
-        client.end()
+        (async () => await client.end())()
         resolve(response.rows)
       })
       .catch((error) => {
-        client.end()
+        (async () => await client.end())()
         reject(error)
       })
   })

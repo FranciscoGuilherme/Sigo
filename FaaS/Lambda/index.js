@@ -4,7 +4,11 @@ const response = require("@utils/response")
 const normasService = require('@services/normas')
 
 exports.handler = (event, context, callback) => {
-  let content = JSON.parse(event.body)
+  let content = {}
+
+  if (event.body) {
+    content = JSON.parse(event.body)
+  }
 
   if (event.path === "/normas") {
     if (event.httpMethod === "GET") {

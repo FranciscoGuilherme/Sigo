@@ -39,12 +39,12 @@ exports.UPDATE_COMPLIANCE_QUERY =
 
 exports.UPDATE_STANDARD_QUERY =
   "UPDATE standards SET " +
-    "compliance = $1, " +
-    "code = $2, " +
-    "name = $3, " +
-    "description = $4, " +
-    "status = $5 " +
-  "WHERE standard_id = $6;"
+    "code = $1, " +
+    "name = $2, " +
+    "description = $3, " +
+    "status = $4 " +
+  "WHERE standard_id = $5 " +
+  "RETURNING standard_id;"
 
 exports.DELETE_COMPLIANCE_QUERY = "DELETE FROM compliances WHERE compliance_id = $1;"
 
